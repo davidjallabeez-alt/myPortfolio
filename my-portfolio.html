@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex | Web Developer Portfolio</title>
+    <style>
+        /* BASE STYLES */
+        body, html {
+            margin: 0; padding: 0; height: 100%;
+            background: #0f0f0f; color: #fff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 1. BIO PAGE (FRONT) */
+        .game-launcher {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(0,0,0,0.85)), 
+                        url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200');
+            background-size: cover; display: flex; justify-content: center;
+            align-items: center; z-index: 9999;
+            transition: transform 0.8s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .game-launcher.hidden { transform: translateY(-100%); }
+
+        .hero-container {
+            max-width: 1000px; width: 90%; text-align: center;
+            padding: 40px; background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px); border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-container h1 { font-size: 3.5rem; margin: 0; color: #007bff; text-transform: uppercase; }
+        .hero-container h2 { font-size: 1.2rem; color: #ccc; margin-bottom: 20px; letter-spacing: 2px; }
+        
+        .bio-text {
+            font-size: 1.1rem; line-height: 1.6; color: #ddd;
+            margin-bottom: 30px; text-align: center; max-width: 700px; margin-inline: auto;
+        }
+
+        .btn-group { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+        .btn-main {
+            padding: 12px 20px; font-size: 0.85rem; background: #333;
+            color: white; border: 1px solid rgba(255,255,255,0.2); border-radius: 5px;
+            cursor: pointer; font-weight: bold; text-transform: uppercase;
+            transition: 0.3s;
+        }
+
+        .btn-tech { background: #007bff; }
+        .btn-fashion { background: #e91e63; }
+        .btn-phones { background: #673ab7; }
+        .btn-jewel { background: #ffc107; color: #000; }
+        .btn-shoes { background: #ff5722; }
+        .btn-sports { background: #4caf50; }
+        
+
+        .btn-main:hover { transform: translateY(-3px); filter: brightness(1.2); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .contact-footer {
+            margin-top: 40px; padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem; color: #888;
+        }
+
+        /* 2. SHARED STORE STYLES */
+        .store-page {
+            display: none; background: #f4f7f6; color: #333; min-height: 100vh;
+        }
+
+        .store-page.visible { display: block; }
+
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 5%; background: #1a1a1a; color: white;
+            position: sticky; top: 0; z-index: 1000;
+        }
+
+        .exit-btn {
+            background: transparent; border: 1px solid #fff; color: white;
+            padding: 5px 15px; cursor: pointer; border-radius: 4px;
+        }
+
+        .product-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px; padding: 40px 5%; max-width: 1200px; margin: 0 auto;
+        }
+
+        .product-card {
+            background: white; border-radius: 12px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee;
+            transition: 0.3s; text-align: center; padding-bottom: 20px;
+        }
+
+        .product-card:hover { transform: translateY(-5px); }
+        .product-card img { width: 100%; height: 250px; object-fit: cover; }
+        .product-info h3 { font-size: 1.1rem; margin: 15px 0 5px; }
+        .price { color: #007bff; font-weight: bold; font-size: 1.2rem; margin-bottom: 15px; }
+
+        .buy-btn {
+            background: #28a745; color: white; border: none;
+            padding: 10px 25px; border-radius: 50px; cursor: pointer;
+            font-weight: bold; transition: 0.2s;
+        }
+
+        /* 3. PAYMENT OVERLAY */
+        #paymentModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9); z-index: 10001;
+            justify-content: center; align-items: center;
+        }
+
+        .modal-content {
+            background: white; padding: 40px; border-radius: 15px;
+            text-align: center; color: #333; max-width: 400px; width: 90%;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="game-launcher" id="launcher">
+        <div class="hero-container">
+            <h1>ALEX</h1>
+            <h2>Professional Web Developer</h2>
+            
+            <p class="bio-text">
+                I build high-performance web applications with a focus on clean code and 
+                secure payment integrations. I specialize in 
+                <strong>React.js</strong>, <strong>Node.js</strong>, and <strong>M-Pesa API</strong>, 
+                turning complex business requirements into simple, beautiful digital products.
+            </p>
+
+            <div class="btn-group">
+                <button class="btn-main btn-tech" id="btnTech">Electronics</button>
+                <button class="btn-main btn-fashion" id="btnFashion">Fashion</button>
+                <button class="btn-main btn-phones" id="btnPhones">Phones</button>
+                <button class="btn-main btn-jewel" id="btnJewel">Jewellery</button>
+                <button class="btn-main btn-shoes" id="btnShoes">Shoes</button>
+                <button class="btn-main btn-sports" id="btnSports">Sports</button>
+                
+            </div>
+
+            <div class="contact-footer">
+                <strong>Email:</strong> zelajaywockeez@gmail.com | 
+                <strong>Phone:</strong> 0740801963
+            </div>
+        </div>
+    </header>
+
+    <main class="store-page" id="techPage">
+        <nav><div class="logo">ALEX<span>_TECH</span></div><button class="exit-btn" onclick="closeStores()">EXIT</button></nav>
+        <div class="product-grid" id="techGrid"></div>
+    </main>
+
+    <main class="store-page" id="fashionPage">
+        <nav><div class="logo">ALEX<span>_FASHION</span></div><button class="exit-btn" onclick="closeStores()">EXIT</button></nav>
+        <div class="product-grid" id="fashionGrid"></div>
+    </main>
+
+    <main class="store-page" id="phonesPage">
+        <nav><div class="logo">ALEX<span>_PHONES</span></div><button class="exit-btn" onclick="closeStores()">EXIT</button></nav>
+        <div class="product-grid" id="phonesGrid"></div>
+    </main>
+
+    <main class="store-page" id="jewelPage">
+        <nav><div class="logo">ALEX<span>_LUXURY</span></div><button class="exit-btn" onclick="closeStores()">EXIT</button></nav>
+        <div class="product-grid" id="jewelGrid"></div>
+    </main>
+
+    <main class="store-page" id="shoesPage">
+        <nav><div class="logo">ALEX<span>_FOOTWEAR</span></div><button class="exit-btn" onclick="closeStores()">EXIT</button></nav>
+        <div class="product-grid" id="shoesGrid"></div>
+    </main>
+
+    <main class="store-page" id="sportsPage">
+        <nav><div class="logo">ALEX<span>_SPORTS</span></div><button class="exit-btn" onclick="closeStores()">EXIT</button></nav>
+        <div class="product-grid" id="sportsGrid"></div>
+    </main>
+
+   
+
+    <div id="paymentModal">
+        <div class="modal-content">
+            <h2 style="color: #28a745; margin-top:0;">Lipa Na M-Pesa</h2>
+            <p>Enter phone number for STK Push.</p>
+            <input type="text" id="userPhone" placeholder="07..." style="padding:12px; width:80%; border:1px solid #ddd; margin-bottom:20px;">
+            <button class="buy-btn" style="width:100%;" onclick="confirmPurchase()">CONFIRM</button>
+            <button onclick="document.getElementById('paymentModal').style.display='none'" style="margin-top:15px; border:none; background:none; color:red; cursor:pointer;">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // DATA ARRAYS
+        const tech = [
+            { name: "MacBook Pro", price: "185,000", img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400" },
+            { name: "Dell Desktop", price: "120,000", img: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400" },
+            { name: "HP Spectre", price: "140,000", img: "https://img-cdn.tnwcdn.com/image?fit=1280%2C720&url=https%3A%2F%2Fcdn0.tnwcdn.com%2Fwp-content%2Fblogs.dir%2F1%2Ffiles%2F2021%2F08%2FHP-Spectre-x360-14-1-of-7.jpg&signature=b273734ba382a58d403431a960fd1708" },
+            { name: "LG Monitor", price: "75,000", img: "https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?w=400" },
+            { name: "Gaming Keyboard", price: "15,000", img: "https://images.ctfassets.net/w5r1fvmogo3f/2Sx0d0xP1sqQ4lqnNghSTr/f7fc939bbb9f196bdd62805af0642dd6/3f91bf6de6ad4e3ca3c86bd3b46264c5.jpg" },
+            { name: "MX Master Mouse", price: "12,500", img: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=400" },
+            { name: "i9 Processor", price: "68,000", img: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=400" },
+            { name: "Samsung SSD", price: "28,000", img: "https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?w=400" },
+            { name: "Razer Webcam", price: "18,000", img: "https://images.unsplash.com/photo-1583573636246-18cb2246697f?w=400" },
+            { name: "USB-C Dock", price: "22,000", img: "https://microless.com/cdn/products/0f47969413908727c5ffb5b0d7473628-md.jpg" },
+            { name: "Bose QC45", price: "42,000", img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" },
+            { name: "Laptop Stand", price: "6,000", img: "https://starmac.co.ke/wp-content/uploads/2022/05/232.png" }
+        ];
+
+        const fashion = [
+            { name: "Leather Jacket", price: "8,500", img: "https://i5.walmartimages.com/seo/FLAVOR-Mens-Brown-Real-Leather-Jacket-with-Removable-Hood_174270fe-a804-4759-a983-bd67c0a4e575.f1e94b75ed1875e3862dc87aebe129bc.jpeg" },
+            { name: "Wool Coat", price: "12,000", img: "https://strellson.com/medias/sys_master/images/images/h6f/h92/10011769241630/10011769241630.jpg" },
+            { name: "Slim Suit", price: "25,000", img: "https://imagescdn.simons.ca/images/4242-22310-42-A1_2/three-piece-pique-suit-b-slim-fit-b.jpg?__=12" },
+            { name: "Urban Hoodie", price: "4,500", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400" },
+            { name: "Denim Jeans", price: "3,800", img: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400" },
+            { name: "Silk Dress", price: "15,000", img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400" },
+            { name: "Luxury Watch", price: "45,000", img: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400" },
+            { name: "White Sneakers", price: "7,500", img: "https://assets.myntassets.com/w_360,q_50,,dpr_2,fl_progressive,f_webp/assets/images/18458460/2022/5/28/c28d223f-6a82-46be-8922-6a21172bd2841653714541319AfroJackWomenWhiteSneakers1.jpg" },
+            { name: "Cotton Shirt", price: "2,500", img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400" },
+            { name: "Leather Bag", price: "18,000", img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=400" },
+            { name: "Sunglasses", price: "14,000", img: "https://cdn.shopify.com/s/files/1/2402/6753/files/mohammadreza-kr-z4sv0o4jDNM-unsplash_1.jpg?v=1750420482" },
+            { name: "Knitted Scarf", price: "1,800", img: "https://images.unsplash.com/photo-1520903920243-00d872a2d1c9?w=400" }
+        ];
+
+        const phones = [
+            { name: "iPhone 15 Pro", price: "160,000", img: "https://static0.pocketlintimages.com/wordpress/wp-content/uploads/wm/2023/09/apple-iphone-15-pro-6-1.jpg?w=1600&h=900&fit=crop" },
+            { name: "S24 Ultra", price: "155,000", img: "https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=400" },
+            { name: "Pixel 8 Pro", price: "115,000", img: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400" },
+            { name: "OnePlus 12", price: "98,000", img: "https://images.unsplash.com/photo-1678911820864-e2c567c655d7?w=400" },
+            { name: "iPhone 13", price: "85,000", img: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=400" },
+            { name: "Xiaomi 14", price: "92,000", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" },
+            { name: "Nokia G42", price: "28,000", img: "https://linkphonescenter.com/images/uploads/1694414286-0.jpg" },
+            { name: "Sony Xperia 1", price: "130,000", img: "https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400" },
+            { name: "Oppo Reno 10", price: "58,000", img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400" },
+            { name: "Nothing Phone", price: "75,000", img: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=400" },
+            { name: "Z Flip 5", price: "110,000", img: "https://images.unsplash.com/photo-1592890288564-76628a30a657?w=400" },
+            { name: "Redmi Note 13", price: "32,000", img: "https://gadgetcentral.co.ke/wp-content/uploads/2024/02/1000033647.jpg" }
+        ];
+
+        const jewels = [
+            { name: "Gold Chain 18K", price: "85,000", img: "https://i.ebayimg.com/images/g/8j8AAOSwWktaaFRP/s-l1200.jpg" },
+            { name: "Diamond Ring", price: "120,000", img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=400" },
+            { name: "Pearl Necklace", price: "45,000", img: "https://artmall.co.ke/wp-content/uploads/2022/12/1000034293-scaled.jpg.webp" },
+            { name: "Silver Bracelet", price: "12,000", img: "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400" },
+            { name: "Ruby Earrings", price: "35,000", img: "https://duntery.uk/cdn/shop/files/DTE1216360R-2_1946x.jpg?v=1718257256" },
+            { name: "Rolex Datejust", price: "6,000", img: "https://bansisuppliers.co.ke/wp-content/uploads/2018/04/Rolex-Datejust-Couple-Watch_1.jpg" },
+            { name: "Crystal Brooch", price: "8,000", img: "https://images.unsplash.com/photo-1617038220319-276d3cfab638?w=400" },
+            { name: "Emerald Pendant", price: "65,000", img: "https://willworkjewelry.com/cdn/shop/products/il_fullxfull.4768028523_l47n.jpg?v=1756980555&width=1080" },
+            { name: "Luxury Cuffs", price: "15,000", img: "https://m.media-amazon.com/images/I/61sKkacYNJL._AC_UF1000,1000_QL80_.jpg" },
+            { name: "Platinum Band", price: "95,000", img: "https://beladamaz.com/wp-content/uploads/2024/10/Diamond-Platinum-band-for-Men.png" },
+            { name: "Sapphire Studs", price: "40,000", img: "https://i.etsystatic.com/11999166/r/il/711efc/4314726655/il_570xN.4314726655_m7ss.jpg" },
+            { name: "Anklet Gold", price: "18,000", img: "https://amyojewelry.com/cdn/shop/files/ANK001_ANK085-G-325106.jpg?v=1756827269&width=1200" }
+        ];
+
+        const shoes = [
+            { name: "Nike Air Max", price: "18,500", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400" },
+            { name: "Jordan 1 Retro", price: "25,000", img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400" },
+            { name: "Adidas Ultraboost", price: "22,000", img: "https://images.unsplash.com/photo-1587563871167-1ee9c731aefb?w=400" },
+            { name: "Chelsea Boots", price: "12,000", img: "https://ng.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/33/8182202/1.jpg?4088" },
+            { name: "Formal Loafers", price: "9,500", img: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=400" },
+            { name: "Converse Chucks", price: "6,500", img: "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=400" },
+            { name: "Yeezy Boost", price: "45,000", img: "https://images.unsplash.com/photo-1551107696-a4b0c5a0d9a2?w=400" },
+            { name: "Timberland Boots", price: "28,000", img: "https://assets.cat5.com/images/catalog/products/6/4/7/2/6/0-650-timberland-pro-8-direct-attach-waterproof-boots-wheat.jpg?v=73441" },
+            { name: "Balenciaga Runner", price: "95,000", img: "https://images.unsplash.com/photo-1607522370275-f14206abe5d3?w=400" },
+            { name: "Vans Old Skool", price: "7,800", img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400" },
+            { name: "Puma Suede", price: "10,500", img: "https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=400" },
+            { name: "Hiking Boots", price: "14,000", img: "https://foxelli.com/cdn/shop/products/1R4A5008_2000x.jpg?v=1640085968" }
+        ];
+
+        const sports = [
+            { name: "Pro Football", price: "4,500", img: "https://ke.jumia.is/unsafe/fit-in/500x500/filters:fill(white)/product/13/7486072/1.jpg?5314" },
+            { name: "Basketball Spald", price: "6,000", img: "https://images.unsplash.com/photo-1519861531473-9200262188bf?w=400" },
+            { name: "Boxing Gloves", price: "8,500", img: "https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=400" },
+            { name: "Tennis Racket", price: "15,000", img: "https://images.unsplash.com/photo-1592709823125-a191f07a2a5e?w=400" },
+            { name: "Yoga Mat", price: "3,000", img: "https://images.unsplash.com/photo-1592432678016-e910b452f9a2?w=400" },
+            { name: "Gym Dumbbells", price: "12,000", img: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=400" },
+            { name: "Skate Board", price: "7,500", img: "https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=400" },
+            { name: "Cricket Bat", price: "18,000", img: "https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=400" },
+            { name: "Badminton Set", price: "5,500", img: "https://contents.mediadecathlon.com/p2586256/k$b9e8a9010e4ce7ec6ba4d292116dfabd/fun-br130-set-family-with-a-set-of-4-adult-badminton-rackets.jpg" },
+            { name: "Swimming Goggles", price: "2,500", img: "https://s3.amazonaws.com/images.gearjunkie.com/uploads/2024/05/Aegend-on-deck-by-Pam-LeBlanc.jpg" },
+            { name: "Cycling Helmet", price: "7,000", img: "https://bike.co.ke/wp-content/uploads/2024/12/ROCKBROS-Detachable-Mountain-Bike-Cycling-Helmet-2.webp" },
+            { name: "Electric Scooter", price: "45,000", img: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=400" },
+        ];
+
+        
+        
+
+        function renderGrid(data, gridId) {
+            const container = document.getElementById(gridId);
+            data.forEach(item => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="product-info"><h3>${item.name}</h3><p class="price">Ksh ${item.price}</p><button class="buy-btn" onclick="openPayment()">BUY NOW</button></div>
+                    </div>`;
+            });
+        }
+
+        renderGrid(tech, 'techGrid');
+        renderGrid(fashion, 'fashionGrid');
+        renderGrid(phones, 'phonesGrid');
+        renderGrid(jewels, 'jewelGrid');
+        renderGrid(shoes, 'shoesGrid');
+        renderGrid(sports, 'sportsGrid');
+        
+
+        function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+        
+        function closeStores() {
+            document.querySelectorAll('.store-page').forEach(p => p.classList.remove('visible'));
+            document.getElementById('launcher').classList.remove('hidden');
+            document.body.style.overflow = "hidden";
+        }
+
+        function setupBtn(id, pageId) {
+            document.getElementById(id).addEventListener('click', () => {
+                document.getElementById('launcher').classList.add('hidden');
+                document.getElementById(pageId).classList.add('visible');
+                document.body.style.overflow = "auto";
+            });
+        }
+
+        setupBtn('btnTech', 'techPage');
+        setupBtn('btnFashion', 'fashionPage');
+        setupBtn('btnPhones', 'phonesPage');
+        setupBtn('btnJewel', 'jewelPage');
+        setupBtn('btnShoes', 'shoesPage');
+        setupBtn('btnSports', 'sportsPage');
+        
+
+        // REAL MPESA LOGIC (Connecting to your backend)
+        async function confirmPurchase() {
+            const phoneNumber = document.getElementById('userPhone').value;
+            const amount = 1; // You can change this to pull from the item price
+
+            if (!phoneNumber) {
+                alert("Please enter a phone number!");
+                return;
+            }
+
+            try {
+                // REPLACE THIS URL with your actual hosted Alwaysdata API endpoint
+                const response = await fetch('/api/mpesa/stkpush', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone: phoneNumber, amount: amount })
+                });
+
+                if (response.ok) {
+                    alert('STK Push sent! Please check your phone for the PIN prompt.');
+                    document.getElementById('paymentModal').style.display = 'none';
+                } else {
+                    alert('Error connecting to M-Pesa. Is the backend server running?');
+                }
+            } catch (error) {
+                console.error("Payment Error:", error);
+                alert('Connection failed. For the prompt to work, you need a backend server running.');
+            }
+        }
+    </script>
+</body>
+</html>

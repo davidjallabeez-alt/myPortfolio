@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce | Headless Architecture</title>
+    <style>
+        /*Architect design system*/
+        :root{
+            --bg: #050505;
+            --card: #111111;
+            --primary: #00ffaa;
+            --text-main: #ffffff;
+            --text-dim: #888888;
+            --border: #222222;
+        }
+
+        body{
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter' sans-serif;
+            margin: 0;
+            padding: 5%;
+        }
+
+        .container{max-width: 1200px; margin: 0 auto;}
+
+        /*Hero Styling*/
+        .hero{text-align: center; padding: 60px 0;}
+
+        .badge{
+            border: 1 px solid var(-primary);
+            color: var(--primary);
+            padding: 4px 12 px;
+            border-radius: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        h1{font-size: 3rem; font-weight: 800;margin-bottom: 10px;}
+        h1 span{color: var(--primary); margin-left: 10px; }
+        .hero-span{color: var(--text-dim); font-size: 1.1rem; max-width: 600px; margin: 0 auto;}
+
+        /*The 4x4 Grid*/
+        .grid-4x4{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 50px;
+        }
+
+        .grid-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .grid-item:hover { border-color: var(--primary); transform: translateY(-5px); }
+
+        .grid-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .item-info { padding: 20px; }
+        .item-info h4 { color: var(--primary); margin-bottom: 5px; }
+        .item-info p { color: var(--text-dim); font-size: 0.85rem; }
+    </style>
+    
+</head>
+<body>
+    <main class="container">
+    <header class="Hero">
+        <span class="badge">Current sprint: Phase 2</span>
+        <h1>Next-Gen<span>E-Commerce</span></h1>
+        <p class="hero-p">Building a commerce engine focused on ultra-fast checkout flows</p>
+    </header>
+    </main>
+
+    <div class="grid-4x4">
+
+
+        <div class="grid-item">
+            <img src="https://cdn.shopify.com/app-store/listing_images/33464ac4a4b03168f4684108306276d0/promotional_image/COrw7M2WtYYDEAE=.png?height=720&width=1280" alt="Data visualization showing optimized checkout speed performance">
+            <div class="item-info">
+                    <h4>Fast-Pass Checkout</h4>
+                    <p>Custom logic designed to reduce click-to-confirm time to under 1.5 seconds.</p>
+                </div>
+        </div>
+        
+        <div class="grid-item">
+                <img src="https://graphqleditorcms.fra1.cdn.digitaloceanspaces.com/graphqleditorcms/blogpost/feat-m-1730840527144.webp" alt="GraphQL Schema Mesh Visualization">
+                <div class="item-info">
+                    <h4>GraphQL Mesh</h4>
+                    <p>The "Headless" core that decouples the backend from the UI for maximum flexibility.</p>
+                </div>
+            </div>
+
+    </div>
+
+    
+</body>
+</html>
