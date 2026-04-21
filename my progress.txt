@@ -1,1 +1,0 @@
-"Hey Gemini, we are working on a Python project called SchoolProject. So far, we have built a live 'Phone System Monitor' in phone.py that tracks RAM (with a visual bar), Storage, Battery, and the Top 5 Apps. My computer is named BOBBY and has 16GB RAM. Now, I want to move into 'Control Mode' using ADB and Python to control a real phone."

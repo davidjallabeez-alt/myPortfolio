@@ -185,6 +185,7 @@
         <div class="modal-content">
             <h2 style="color: #28a745; margin-top:0;">Lipa Na M-Pesa</h2>
             <p>Enter phone number for STK Push.</p>
+            <p style="margin: 0 0 18px; font-weight: bold;" id="paymentAmountLabel">Amount: Ksh 1</p>
             <input type="text" id="userPhone" placeholder="07..." style="padding:12px; width:80%; border:1px solid #ddd; margin-bottom:20px;">
             <button class="buy-btn" style="width:100%;" onclick="confirmPurchase()">CONFIRM</button>
             <button onclick="document.getElementById('paymentModal').style.display='none'" style="margin-top:15px; border:none; background:none; color:red; cursor:pointer;">Cancel</button>
@@ -289,10 +290,11 @@
         function renderGrid(data, gridId) {
             const container = document.getElementById(gridId);
             data.forEach(item => {
+                const priceNumber = Number(item.price.replace(/,/g, ''));
                 container.innerHTML += `
                     <div class="product-card">
                         <img src="${item.img}" alt="${item.name}">
-                        <div class="product-info"><h3>${item.name}</h3><p class="price">Ksh ${item.price}</p><button class="buy-btn" onclick="openPayment()">BUY NOW</button></div>
+                        <div class="product-info"><h3>${item.name}</h3><p class="price">Ksh ${item.price}</p><button class="buy-btn" onclick="openPayment(${priceNumber})">BUY NOW</button></div>
                     </div>`;
             });
         }
@@ -305,7 +307,14 @@
         renderGrid(sports, 'sportsGrid');
         
 
-        function openPayment() { document.getElementById('paymentModal').style.display = 'flex'; }
+        const MPESA_API_URL = 'http://localhost:3000/api/mpesa/stkpush';
+        let selectedAmount = 1;
+
+        function openPayment(amount) {
+            selectedAmount = amount || 1;
+            document.getElementById('paymentAmountLabel').textContent = `Amount: Ksh ${selectedAmount.toLocaleString()}`;
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
         
         function closeStores() {
             document.querySelectorAll('.store-page').forEach(p => p.classList.remove('visible'));
@@ -331,8 +340,8 @@
 
         // REAL MPESA LOGIC (Connecting to your backend)
         async function confirmPurchase() {
-            const phoneNumber = document.getElementById('userPhone').value;
-            const amount = 1; // You can change this to pull from the item price
+            const phoneNumber = document.getElementById('userPhone').value.trim();
+            const amount = selectedAmount;
 
             if (!phoneNumber) {
                 alert("Please enter a phone number!");
@@ -340,8 +349,7 @@
             }
 
             try {
-                // REPLACE THIS URL with your actual hosted Alwaysdata API endpoint
-                const response = await fetch('/api/mpesa/stkpush', {
+                const response = await fetch(MPESA_API_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ phone: phoneNumber, amount: amount })
@@ -350,7 +358,10 @@
                 if (response.ok) {
                     alert('STK Push sent! Please check your phone for the PIN prompt.');
                     document.getElementById('paymentModal').style.display = 'none';
+                    document.getElementById('userPhone').value = '';
                 } else {
+                    const errorText = await response.text();
+                    console.error('MPESA response error:', errorText);
                     alert('Error connecting to M-Pesa. Is the backend server running?');
                 }
             } catch (error) {

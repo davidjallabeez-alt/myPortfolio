@@ -1,0 +1,15 @@
+{
+  "name": "cheki-cheki-backend",
+  "version": "1.0.0",
+  "description": "Local backend stub for M-Pesa STK Push demo",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.4",
+    "cors": "^2.8.5",
+    "axios": "^1.6.0",
+    "dotenv": "^16.0.0"
+  }
+}
